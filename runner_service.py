@@ -4,6 +4,14 @@ import subprocess
 import tempfile
 from fastapi import Body
 
+ALLOWED_RUNNERS = {
+    "multi_lp_runner_v6_3.py",
+    "multi_lp_runner_v7.py",
+    "multi_lp_runner_v6.py",
+    "multi_lp_runner_v6_3_v2_1.py",
+    "multi_lp_runner_v6_3_v2_1_layout.py",
+}
+
 RUNNERS_DIR = os.path.abspath(
     os.path.join(os.path.dirname(__file__), "..", "engine_core", "runners")
 )

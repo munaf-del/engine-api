@@ -1,15 +1,14 @@
-import os
 from routes.project_routes import router as project_router
 from routes.calculator_routes import router as calculator_router, CALCULATOR_TEMPLATES
 from routes.db_routes import router as db_router
 from routes.health_routes import router as health_router
 from run_storage_service import save_run_result
-from runner_service import run_engine
 from db import db_conn, table_exists
 from fastapi import FastAPI, Body, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from runner_registry import resolve_runner
 from psycopg2.extras import RealDictCursor
+from runner_service import run_engine, ALLOWED_RUNNERS
 
 app = FastAPI()
 
@@ -24,27 +23,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-# -----------------------------
-# DB CONNECTION
-# -----------------------------
-
-
-# -----------------------------
-# RUNNER CONFIG
-# -----------------------------
-
-RUNNERS_DIR = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "engine_core", "runners")
-    )
-
-ALLOWED_RUNNERS = {
-    "multi_lp_runner_v6_3.py",
-    "multi_lp_runner_v7.py",
-    "multi_lp_runner_v6.py",
-    "multi_lp_runner_v6_3_v2_1.py",
-    "multi_lp_runner_v6_3_v2_1_layout.py",
-}
 
 # -----------------------------
 # BASIC ENDPOINTS
