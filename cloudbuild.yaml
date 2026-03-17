@@ -1,0 +1,13 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'australia-southeast1-docker.pkg.dev/engine-dev-487802/engine-repo/engine-api:latest'
+      - '.'
+
+images:
+  - 'australia-southeast1-docker.pkg.dev/engine-dev-487802/engine-repo/engine-api:latest'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
