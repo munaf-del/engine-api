@@ -1,10 +1,29 @@
 steps:
+  # Build image
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
       - '-t'
       - 'australia-southeast1-docker.pkg.dev/engine-dev-487802/engine-repo/engine-api:latest'
       - '.'
+
+  # Push image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'australia-southeast1-docker.pkg.dev/engine-dev-487802/engine-repo/engine-api:latest'
+
+  # 🚀 Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'engine-api-dev'
+      - '--image=australia-southeast1-docker.pkg.dev/engine-dev-487802/engine-repo/engine-api:latest'
+      - '--region=australia-southeast1'
+      - '--platform=managed'
+      - '--quiet'
 
 images:
   - 'australia-southeast1-docker.pkg.dev/engine-dev-487802/engine-repo/engine-api:latest'
