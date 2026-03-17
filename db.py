@@ -9,8 +9,22 @@ def db_conn():
     user = os.getenv("DB_USER", os.getenv("PGUSER", "postgres"))
     pw = os.getenv("DB_PASSWORD", os.getenv("PGPASSWORD", ""))
 
-    return psycopg2.connect(host=host, port=port, dbname=db, user=user, password=pw)
-
+    # 🔥 IMPORTANT FIX HERE
+    if host.startswith("/cloudsql"):
+        return psycopg2.connect(
+            dbname=db,
+            user=user,
+            password=pw,
+            host=host
+        )
+    else:
+        return psycopg2.connect(
+            host=host,
+            port=port,
+            dbname=db,
+            user=user,
+            password=pw
+        )
 
 def table_exists(conn, table_name):
     with conn.cursor() as cur:
